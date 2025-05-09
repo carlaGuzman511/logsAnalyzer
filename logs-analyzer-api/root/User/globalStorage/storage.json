@@ -1,0 +1,70 @@
+{
+    "telemetry.sqmId": "",
+    "telemetry.machineId": "c99cf0b5468a5dca1c9d8ae773500badb7846725fbb6b2b376451691360c5464",
+    "telemetry.devDeviceId": "94a21100-4c96-47ab-a2c4-7a4e88784678",
+    "backupWorkspaces": {
+        "workspaces": [],
+        "folders": [
+            {
+                "folderUri": "file:///root/PycharmProjects/logsAnalyzer"
+            }
+        ],
+        "emptyWindows": [
+            {
+                "backupFolder": "1744693015716"
+            }
+        ]
+    },
+    "windowControlHeight": 35,
+    "profileAssociations": {
+        "workspaces": {
+            "file:///root/PycharmProjects/logsAnalyzer": "__default__profile__"
+        },
+        "emptyWindows": {
+            "1744693015716": "__default__profile__"
+        }
+    },
+    "windowsState": {
+        "lastActiveWindow": {
+            "backupPath": "/root/PycharmProjects/logsAnalyzer/root/Backups/1744693015716",
+            "uiState": {
+                "mode": 0,
+                "x": 142,
+                "y": 99,
+                "width": 1200,
+                "height": 800
+            }
+        },
+        "openedWindows": []
+    },
+    "theme": "vs-dark",
+    "themeBackground": "#1f1f1f",
+    "windowSplash": {
+        "zoomLevel": 0,
+        "baseTheme": "vs-dark",
+        "colorInfo": {
+            "foreground": "#cccccc",
+            "background": "#1f1f1f",
+            "editorBackground": "#1f1f1f",
+            "titleBarBackground": "#181818",
+            "titleBarBorder": "#2b2b2b",
+            "activityBarBackground": "#181818",
+            "activityBarBorder": "#2b2b2b",
+            "sideBarBackground": "#181818",
+            "sideBarBorder": "#2b2b2b",
+            "statusBarBackground": "#181818",
+            "statusBarBorder": "#2b2b2b",
+            "statusBarNoFolderBackground": "#1f1f1f"
+        },
+        "layoutInfo": {
+            "sideBarSide": "left",
+            "editorPartMinWidth": 220,
+            "titleBarHeight": 35,
+            "activityBarWidth": 48,
+            "sideBarWidth": 300,
+            "auxiliarySideBarWidth": 0,
+            "statusBarHeight": 22,
+            "windowBorder": false
+        }
+    }
+}
