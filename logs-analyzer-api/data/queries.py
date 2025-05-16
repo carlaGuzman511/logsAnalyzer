@@ -17,24 +17,6 @@ def get_vsftpd_logs():
 
     return list(ftp_log)
 
-@app.route('/api/logs/apache/access')
-def save_apache_access_logs():
-    process_log_file('/var/log/apache2/access_log', parse_access_log_line, ApacheAccessLog)
-
-def save_apache_error_logs():
-    process_log_file('/var/log/apache2/error_log', parse_error_log_line, ApacheErrorLog)
-
-def save_vsftpd_logs():
-    rocess_log_file('/var/log/vsftpd.log', parse_vsftpd_log_line, FtpLog)
-
-def process_log_file(filepath, parser_func, model_class):
-    with open(filepath, 'r') as f:
-        for line in f:
-            parsed = parser_func(line)
-            if parsed:
-                model_class.create(**parsed)
-
-
 
 # 1. Doctor que atendio mas citas medicas en una determinada fecha
 

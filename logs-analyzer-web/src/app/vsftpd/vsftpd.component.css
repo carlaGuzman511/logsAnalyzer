@@ -1,0 +1,32 @@
+.ftp-log-table {
+    margin-top: 20px;
+  }
+  
+  .ftp-log-table h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .ftp-log-table table {
+    width: 100%;
+    font-size: 14px;
+    background-color: #fff;
+    border-collapse: collapse;
+  }
+  
+  .ftp-log-table th,
+  .ftp-log-table td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .ftp-log-table thead {
+    background-color: #f2f2f2;
+  }
+  
+  .ftp-log-table tr:hover {
+    background-color: #f9f9f9;
+  }
+  
