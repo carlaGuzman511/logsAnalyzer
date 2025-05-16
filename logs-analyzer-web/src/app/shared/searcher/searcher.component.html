@@ -1,0 +1,11 @@
+<div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="query"
+      [placeholder]="placeholder"
+      (keyup.enter)="onSearch()"
+      class="form-control"
+    />
+    <button (click)="onSearch()" class="btn btn-primary mt-2">Search</button>
+</div>
+  

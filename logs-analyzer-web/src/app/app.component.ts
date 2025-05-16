@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { VsftpdComponent } from './vsftpd/vsftpd.component';
+import { ApacheAccessLogComponent } from './apache-access-log/apache-access-log.component';
+import { ApacheErrorLogComponent } from './apache-error-log/apache-error-log.component';
+import { CommonModule } from '@angular/common';
+import { SearcherComponent } from './shared/searcher/searcher.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [MatPaginatorModule, CommonModule, RouterOutlet, SearcherComponent, VsftpdComponent, ApacheAccessLogComponent, ApacheErrorLogComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'logs-analyzer-web';
+  onSearch(query: string) {
+    // filter your logs or call service
+    console.log('User searched for:', query);
+  }  
 }
