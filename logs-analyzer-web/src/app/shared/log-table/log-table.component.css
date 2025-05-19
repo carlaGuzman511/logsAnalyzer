@@ -1,0 +1,15 @@
+.header-cell-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+  
+.column-title {
+    font-weight: bold;
+    align-items: center;
+}
+  
+.column-filter {
+    width: 100%;
+}
+  

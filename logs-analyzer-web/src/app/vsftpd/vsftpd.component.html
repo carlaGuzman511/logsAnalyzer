@@ -2,6 +2,7 @@
 <app-log-table
   [columns]="columns"
   [headers]="headers"
-  [rows]="rows">
+  [rows]="rows"
+  [columnTypes]="{ id: 'text', timestamp: 'date', pid: 'text', user: 'text', action: 'text', ip_address: 'text', message: 'text', extra_message: 'text'}">
 </app-log-table>
   

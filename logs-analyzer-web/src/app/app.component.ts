@@ -4,13 +4,12 @@ import { VsftpdComponent } from './vsftpd/vsftpd.component';
 import { ApacheAccessLogComponent } from './apache-access-log/apache-access-log.component';
 import { ApacheErrorLogComponent } from './apache-error-log/apache-error-log.component';
 import { CommonModule } from '@angular/common';
-import { SearcherComponent } from './shared/searcher/searcher.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatPaginatorModule, CommonModule, RouterOutlet, SearcherComponent, VsftpdComponent, ApacheAccessLogComponent, ApacheErrorLogComponent],
+  imports: [MatPaginatorModule, CommonModule, RouterOutlet, VsftpdComponent, ApacheAccessLogComponent, ApacheErrorLogComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
