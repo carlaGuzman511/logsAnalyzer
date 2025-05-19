@@ -2,5 +2,6 @@
 <app-log-table
   [columns]="columns"
   [headers]="headers"
+  [columnTypes]="{ id: 'text', ip_address: 'text', timestamp: 'date', method: 'text', path: 'text', status_code: 'text', user_agent: 'text'}"
   [rows]="rows">
 </app-log-table>

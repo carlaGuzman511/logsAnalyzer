@@ -34,14 +34,12 @@ def index():
 @app.route('/api/logs/apache/access')
 def get_apache_access():
     # process_log_file('/var/log/apache2/access_log', parse_access_log_line, ApacheAccessLog)
-    print(get_apache_access_logs())
 
     return jsonify(get_apache_access_logs())
 
 @app.route('/api/logs/apache/error')
 def get_apache_error():
     #process_log_file('/var/log/apache2/error_log', parse_error_log_line, ApacheErrorLog)
-    print(get_apache_error_logs())
 
     return jsonify(get_apache_error_logs())
 
@@ -58,18 +56,6 @@ def process_log_file(filepath, parser_func, model_class):
             parsed = parser_func(line)
             if parsed:
                 model_class.create(**parsed)
-
-
-# def get_apache_summary():
-#     return {
-#         "last_entry": "2025-04-14 12:32:11",
-#         "status_counts": {
-#             "200": 1240,
-#             "404": 33,
-#             "500": 5,
-#             "400": 1
-#         }
-#     }
 
 if __name__ == '__main__':
     app.run(debug=True)
