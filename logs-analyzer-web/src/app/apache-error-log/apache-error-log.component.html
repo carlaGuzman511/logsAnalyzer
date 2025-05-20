@@ -1,7 +1,10 @@
-<h3>Apache Error Logs</h3>
 <app-log-table
+  [title]="title"
+  (reloadClicked)="reload()"
+  [isLoading]="isLoading"
   [columns]="columns"
   [columnTypes]="{ id: 'text', ip: 'text', timestamp: 'date', method: 'text', url: 'text', message: 'text', status_code: 'text'}"
   [headers]="headers"
-  [rows]="rows">
+  [rows]="rows"
+>
 </app-log-table>

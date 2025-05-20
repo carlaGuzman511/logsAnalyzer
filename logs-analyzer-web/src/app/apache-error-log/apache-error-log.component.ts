@@ -3,6 +3,8 @@ import { ApacheErrorLogService } from '../services/apache.error.log.service';
 import { ApacheErrorLog } from '../models/ApacheErrorLog';
 import { CommonModule } from '@angular/common';
 import { LogTableComponent } from '../shared/log-table/log-table.component';
+import { catchError, finalize } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-apache-error-log',
@@ -13,16 +15,43 @@ import { LogTableComponent } from '../shared/log-table/log-table.component';
 })
 export class ApacheErrorLogComponent implements OnInit{
   rows: ApacheErrorLog[] = [];
-  columns: string[] = ['id', 'ip', 'timestamp','method', 'url', 'message', 'status_code'];
-  headers: string[] = ['Id', 'IP Address', 'Timestamp', 'Method', 'Action', 'URL', 'Message', 'Status Code'];
- 
+  columns: string[] = ['id', 'ip', 'timestamp','method', 'url', 'message', 'status_code', 'actions'];
+  headers: string[] = ['Id', 'IP Address', 'Timestamp', 'Method', 'Action', 'URL', 'Message', 'Status Code', 'Actions'];
+  isLoading: boolean = false;
+  title: string = "Apache Error Logs";
+
   constructor(private apacheErrorLogService: ApacheErrorLogService){
 
   }
   
   ngOnInit(): void {
+    this.isLoading = true;
 
-    this.apacheErrorLogService.getApacheErrorLog().subscribe((data) => {
+    this.apacheErrorLogService.getApacheErrorLog()
+    .pipe(
+      catchError((error) => {
+        console.error('Error fetching apache error logs', error);
+        return of([]);
+      }),
+      finalize(() => this.isLoading = false)
+    )
+    .subscribe((data) => {
+      this.rows = data;
+    })
+  }
+
+  reload(): void {
+    this.isLoading = true;
+
+    this.apacheErrorLogService.getApacheErrorLog()
+    .pipe(
+      catchError((error) => {
+        console.error('Error fetching apache error logs', error);
+        return of([]);
+      }),
+      finalize(() => this.isLoading = false)
+    )
+    .subscribe((data) => {
       this.rows = data;
     })
   }

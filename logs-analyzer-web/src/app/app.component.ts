@@ -6,6 +6,7 @@ import { ApacheErrorLogComponent } from './apache-error-log/apache-error-log.com
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,

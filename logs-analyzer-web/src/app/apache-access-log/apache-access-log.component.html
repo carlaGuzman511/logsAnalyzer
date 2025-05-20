@@ -1,7 +1,10 @@
-<h3>Apache Access Logs</h3>
 <app-log-table
+  [title]="title"
+  [isLoading]="isLoading"
+  (reloadClicked)="reload()"
   [columns]="columns"
   [headers]="headers"
   [columnTypes]="{ id: 'text', ip_address: 'text', timestamp: 'date', method: 'text', path: 'text', status_code: 'text', user_agent: 'text'}"
-  [rows]="rows">
+  [rows]="rows"
+>
 </app-log-table>

@@ -1,0 +1,18 @@
+<h2>Apache Access Log Reports</h2>
+
+<div style="max-width: 400px; margin-bottom: 2rem;">
+  <canvas baseChart
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [type]="pieChartType">
+  </canvas>
+</div>
+
+<div style="max-width: 600px;">
+  <canvas baseChart
+          [data]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [type]="'bar'">
+  </canvas>
+</div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,11 +9,21 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-log-table',
   standalone: true,
   imports: [
+    MatCardModule,
+    MatIconModule,
+    ClipboardModule,
+    MatProgressSpinner,
     CommonModule, 
     MatTableModule, 
     MatPaginatorModule, 
@@ -31,12 +41,18 @@ export class LogTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() rows: any[] = [];
   @Input() headers: string[] = [];
   @Input() columnTypes: {[key: string] : 'text' | 'date'} = {};
+  @Input() title: string = "";
+  @Input() isLoading: boolean = false;
+
+  @Output() reloadClicked = new EventEmitter<void>();
 
   @ViewChild(MatPaginator) paginator!:  MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   dataSource = new MatTableDataSource<any>();
   filterValues: { [key: string]: any } = {};
+
+  constructor(private clipboard: Clipboard, private snackBar: MatSnackBar){}
 
   applyFilter(column: string, value: any): void {
     let formattedValue = value;
@@ -48,8 +64,13 @@ export class LogTableComponent implements OnInit, AfterViewInit, OnChanges {
     this.filterValues[column] = formattedValue?.toString().toLowerCase() ?? '';
     this.dataSource.filter = JSON.stringify(this.filterValues);
   }
-  
 
+  copyRow(row: any): void {
+    const textToCopy = JSON.stringify(row, null, 2);
+    this.clipboard.copy(textToCopy);
+    this.snackBar.open('Copied to clipboard!', 'Close', { duration: 2000 });
+  }
+  
   ngOnInit(): void {
     this.dataSource.data = this.rows;
 
@@ -71,7 +92,7 @@ export class LogTableComponent implements OnInit, AfterViewInit, OnChanges {
           return dataValue?.toString().toLowerCase().includes(filterValue);
         }
       });
-    };    
+    };     
   }
 
   ngAfterViewInit(): void {
