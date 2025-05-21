@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
+import { ViewChild } from '@angular/core';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-log-report',
@@ -20,7 +22,8 @@ export class LogReportComponent implements OnInit{
       }
     ],
   };
-  @Input() chartType: ChartType = 'pie';
+  @Input() chartType: ChartType = 'bar';
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   options: ChartOptions = {
     responsive: true,
@@ -37,5 +40,11 @@ export class LogReportComponent implements OnInit{
 
   ngOnInit(): void {
     
+  }
+
+  ngOnChanges(): void {
+    if (this.chart) {
+      this.chart.update();
+    }
   }
 }

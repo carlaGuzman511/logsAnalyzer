@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, jsonify, request
 # from .parsers.apache_parser import parse_apache_log
 # from .parsers.vsftpd_parser import parse_vsftpd_log
 # from apscheduler.schedulers.background import BackgroundScheduler
@@ -10,9 +10,9 @@ from data.tables.ftp_log import FtpLog
 from parsers.access_log_parser import parse_access_log_line
 from parsers.error_log_parser import parse_error_log_line
 from parsers.vsftpd_log_parser import parse_vsftpd_log_line
-from data.queries import get_apache_access_logs
-from data.queries import get_apache_error_logs
-from data.queries import get_vsftpd_logs
+from data.queries import get_apache_access_logs, get_apache_access_logs_reports
+from data.queries import get_apache_error_logs, get_apache_error_logs_reports
+from data.queries import get_vsftpd_logs, get_ftp_logs_reports
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -47,8 +47,39 @@ def get_apache_error():
 def get_ftp():
     # process_log_file('/var/log/vsftpd.log', parse_vsftpd_log_line, FtpLog)
     
-    print(get_vsftpd_logs())
     return jsonify(get_vsftpd_logs())
+
+@app.route('/api/logs/apache/access/reports')
+def get_apache_access_reports():
+    field = request.args.get('report')
+    labels, data = get_apache_access_logs_reports(field)
+
+    return jsonify({
+        'labels': labels,
+        'data': data
+    })
+
+@app.route('/api/logs/apache/error/reports')
+def get_apache_error_reports():
+    start_date = request.args.get('start_date')  # e.g., '2025-05-01'
+    end_date = request.args.get('end_date')  
+    data = get_apache_error_logs_reports(start_date, end_date)
+
+    return jsonify({
+        'labels': "",
+        'data': data
+    })
+
+
+@app.route('/api/logs/ftp/reports')
+def get_ftp_reports():
+    field = request.args.get('report')
+    labels, data = get_ftp_logs_reports(field)
+
+    return jsonify({
+        'labels': labels,
+        'data': data
+    })
 
 def process_log_file(filepath, parser_func, model_class):
     with open(filepath, 'r') as f:
