@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FtpLog } from '../models/FtpLog';
+import { LogReport } from '../models/LogReport';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +15,9 @@ export class FtpLogService {
 
   getFtpLogs(): Observable<FtpLog[]> {
     return this.http.get<FtpLog[]>(this.apiUrl);
+  }
+
+  getFtpReports(field: string): Observable<LogReport>{     
+    return this.http.get<LogReport>(`${this.apiUrl}/reports?report=${field}`)
   }
 }
