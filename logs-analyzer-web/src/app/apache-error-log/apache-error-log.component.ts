@@ -51,4 +51,18 @@ export class ApacheErrorLogComponent implements OnInit{
       this.rows = data;
     })
   }
+
+  handleFileUpload(file: File): void {
+    this.isLoading = true;
+    this.apacheErrorLogService.uploadApacheErrorLog(file).subscribe({
+      next: (data) => {
+        this.rows = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.snackBar.open('Failed to upload apache error file', 'Close', { duration: 2000 });
+        this.isLoading = false;
+      }
+    });
+  }
 }

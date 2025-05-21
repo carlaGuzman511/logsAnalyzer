@@ -1,9 +1,5 @@
 from flask import Flask, jsonify, request
-# from .parsers.apache_parser import parse_apache_log
-# from .parsers.vsftpd_parser import parse_vsftpd_log
-# from apscheduler.schedulers.background import BackgroundScheduler
-# from .log_utils import *
-# from .data.database import db
+import os
 from data.tables.apache_access_log import ApacheAccessLog
 from data.tables.apache_error_log import ApacheErrorLog
 from data.tables.ftp_log import FtpLog
@@ -20,32 +16,64 @@ CORS(app)
 
 @app.route('/')
 def index():
-    # process_log_file('/var/log/apache2/access_log', parse_access_log_line, ApacheAccessLog)
-    # process_log_file('/var/log/apache2/error_log', parse_error_log_line, ApacheErrorLog)
-    # process_log_file('/var/log/vsftpd.log', parse_vsftpd_log_line, FtpLog)
     
-    # apache_access_log = parse_apache_log('/var/log/apache2/access_log')
-    # apache_error_log = parse_apache_log('/var/log/apache2/error_log')
-    # vsftpd_logs = parse_vsftpd_log('/var/log/vsftpd.log')
-    # return render_template('index.html', apache_access_log=apache_access_log, apache_error_log=apache_error_log, vsftpd_logs=vsftpd_logs)
 
     return "hello WOrld!"
 
+@app.route('/api/logs/apache/access', methods=['POST'])
+def load_apache_access():
+    uploaded_file = request.files.get('file')
+    if not uploaded_file:
+        return jsonify({'error': 'No file uploaded'}), 400
+
+    content = uploaded_file.read().decode('utf-8')
+    lines = content.splitlines()
+
+    parsed_logs = [parse_access_log_line(line) for line in lines if line.strip()]
+    
+    return jsonify(parsed_logs)
+
+@app.route('/api/logs/apache/error', methods=['POST'])
+def load_apache_error():
+    uploaded_file = request.files.get('file')
+    if not uploaded_file:
+        return jsonify({'error': 'No file uploaded'}), 400
+
+    content = uploaded_file.read().decode('utf-8')
+    lines = content.splitlines()
+
+    parsed_logs = [parse_error_log_line(line) for line in lines if line.strip()]
+    
+    return jsonify(parsed_logs)
+
+@app.route('/api/logs/ftp', methods=['POST'])
+def load_ftp():
+    uploaded_file = request.files.get('file')
+    if not uploaded_file:
+        return jsonify({'error': 'No file uploaded'}), 400
+
+    content = uploaded_file.read().decode('utf-8')
+    lines = content.splitlines()
+
+    parsed_logs = [parse_vsftpd_log_line(line) for line in lines if line.strip()]
+    
+    return jsonify(parsed_logs)
+
 @app.route('/api/logs/apache/access')
 def get_apache_access():
-    # process_log_file('/var/log/apache2/access_log', parse_access_log_line, ApacheAccessLog)
+    process_log_file('/var/log/apache2/access_log', parse_access_log_line, ApacheAccessLog, 'apache_access_log.state')
 
     return jsonify(get_apache_access_logs())
 
 @app.route('/api/logs/apache/error')
 def get_apache_error():
-    #process_log_file('/var/log/apache2/error_log', parse_error_log_line, ApacheErrorLog)
+    process_log_file('/var/log/apache2/error_log', parse_error_log_line, ApacheErrorLog, 'apache_error_log.state')
 
     return jsonify(get_apache_error_logs())
 
 @app.route('/api/logs/ftp')
 def get_ftp():
-    # process_log_file('/var/log/vsftpd.log', parse_vsftpd_log_line, FtpLog)
+    process_log_file('/var/log/vsftpd.log', parse_vsftpd_log_line, FtpLog, 'vsftpd_log.state')
     
     return jsonify(get_vsftpd_logs())
 
@@ -61,7 +89,7 @@ def get_apache_access_reports():
 
 @app.route('/api/logs/apache/error/reports')
 def get_apache_error_reports():
-    start_date = request.args.get('start_date')  # e.g., '2025-05-01'
+    start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')  
     data = get_apache_error_logs_reports(start_date, end_date)
 
@@ -81,12 +109,27 @@ def get_ftp_reports():
         'data': data
     })
 
-def process_log_file(filepath, parser_func, model_class):
+def get_log_position(state_file):
+    try:
+        with open(state_file, 'r') as f:
+            return int(f.read())
+    except (FileNotFoundError, ValueError):
+        return 0
+
+def update_log_position(state_file, position):
+    with open(state_file, 'w') as f:
+        f.write(str(position))
+
+def process_log_file(filepath, parser_func, model_class, state_file):
+    position = get_log_position(state_file)
+    
     with open(filepath, 'r') as f:
+        f.seek(position)
         for line in f:
             parsed = parser_func(line)
             if parsed:
                 model_class.create(**parsed)
+        update_log_position(state_file, f.tell())
 
 if __name__ == '__main__':
     app.run(debug=True)

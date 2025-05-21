@@ -36,6 +36,20 @@ export class VsftpdComponent implements OnInit{
     this.router.navigate(['ftp-reports']);
   }
 
+  handleFileUpload(file: File): void {
+    this.isLoading = true;
+    this.ftpLogService.uploadFtpLogs(file).subscribe({
+      next: (data) => {
+        this.rows = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.snackBar.open('Failed to upload vsftpd file', 'Close', { duration: 2000 });
+        this.isLoading = false;
+      }
+    });
+  }
+  
   private getFtpLogs():void{
     this.isLoading = true;
     this.ftpLogService.getFtpLogs()

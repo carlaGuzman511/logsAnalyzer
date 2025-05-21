@@ -1,6 +1,7 @@
 <app-log-table
   [title]="title"
   (reloadClicked)="reload()"
+  (fileSelected)="handleFileUpload($event)"
   (reportsClicked)="goToReports()"
   [isLoading]="isLoading"
   [columns]="columns"

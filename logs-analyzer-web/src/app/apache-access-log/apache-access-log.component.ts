@@ -52,4 +52,18 @@ export class ApacheAccessLogComponent implements OnInit{
         this.rows = data;
       });
   }
+
+  handleFileUpload(file: File): void {
+    this.isLoading = true;
+    this.apacheAccessLogService.uploadApacheAccessLog(file).subscribe({
+      next: (data) => {
+        this.rows = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.snackBar.open('Failed to upload apache access file', 'Close', { duration: 2000 });
+        this.isLoading = false;
+      }
+    });
+  }
 }

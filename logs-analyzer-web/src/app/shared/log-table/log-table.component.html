@@ -1,10 +1,20 @@
-<h3>{{title}}</h3>
-<button mat-icon-button (click)="reloadClicked.emit()" matToolTip="Reload">
-  <mat-icon>refresh</mat-icon>
-</button>
-<button mat-icon-button (click)="reportsClicked.emit()" matToolTip="Reports">
-  <mat-icon>bar_chart</mat-icon>
-</button>
+<div class="top-bar">
+  <h2>{{ title }}</h2>
+
+  <div class="buttons">
+    <button mat-icon-button (click)="reloadClicked.emit()" matTooltip="Reload">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <button mat-icon-button (click)="reportsClicked.emit()" matTooltip="Reports">
+      <mat-icon>bar_chart</mat-icon>
+    </button>  
+  </div>
+
+  <div>
+    <input type="file" (change)="onFileChange($event)" />
+  </div>
+</div>
+
 <mat-card>
   <!-- <mat-card-content> -->
     <div *ngIf="isLoading" class="spinner">
