@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { LogTableComponent } from '../shared/log-table/log-table.component';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-apache-error-log',
@@ -13,6 +15,7 @@ import { of } from 'rxjs';
   templateUrl: './apache-error-log.component.html',
   styleUrl: './apache-error-log.component.css'
 })
+
 export class ApacheErrorLogComponent implements OnInit{
   rows: ApacheErrorLog[] = [];
   columns: string[] = ['id', 'ip', 'timestamp','method', 'url', 'message', 'status_code', 'actions'];
@@ -20,33 +23,26 @@ export class ApacheErrorLogComponent implements OnInit{
   isLoading: boolean = false;
   title: string = "Apache Error Logs";
 
-  constructor(private apacheErrorLogService: ApacheErrorLogService){
-
-  }
+  constructor(private apacheErrorLogService: ApacheErrorLogService, private snackBar: MatSnackBar, private router: Router){}
   
   ngOnInit(): void {
-    this.isLoading = true;
-
-    this.apacheErrorLogService.getApacheErrorLog()
-    .pipe(
-      catchError((error) => {
-        console.error('Error fetching apache error logs', error);
-        return of([]);
-      }),
-      finalize(() => this.isLoading = false)
-    )
-    .subscribe((data) => {
-      this.rows = data;
-    })
+    this.getApacheErrorLogs();
   }
 
   reload(): void {
-    this.isLoading = true;
+    this.getApacheErrorLogs();
+  }
 
+  goToReports(): void{
+    this.router.navigate(['apache-error-reports']);
+  }
+
+  private getApacheErrorLogs():void{
+    this.isLoading = true;
     this.apacheErrorLogService.getApacheErrorLog()
     .pipe(
       catchError((error) => {
-        console.error('Error fetching apache error logs', error);
+        this.snackBar.open(`Error fetching apache error logs ${error}`, 'Close', { duration: 2000 });
         return of([]);
       }),
       finalize(() => this.isLoading = false)

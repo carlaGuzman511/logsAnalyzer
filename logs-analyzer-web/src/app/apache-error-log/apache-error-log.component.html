@@ -1,6 +1,7 @@
 <app-log-table
   [title]="title"
   (reloadClicked)="reload()"
+  (reportsClicked)="goToReports()"
   [isLoading]="isLoading"
   [columns]="columns"
   [columnTypes]="{ id: 'text', ip: 'text', timestamp: 'date', method: 'text', url: 'text', message: 'text', status_code: 'text'}"

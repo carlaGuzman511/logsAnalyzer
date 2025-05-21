@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { LogTableComponent } from '../shared/log-table/log-table.component';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vsftpd',
@@ -20,30 +22,26 @@ export class VsftpdComponent implements OnInit{
   isLoading: boolean = false;
   title: string = "Ftp Logs";
 
-  constructor(private ftpLogService: FtpLogService){}
+  constructor(private ftpLogService: FtpLogService, private snackBar: MatSnackBar, private router: Router){}
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.ftpLogService.getFtpLogs()
-    .pipe(
-      catchError((error) => {
-        console.error("Error fetching ftp logs", error);
-        return of([]);
-      }),
-      finalize(() => this.isLoading = false)
-    )
-    .subscribe((data) => {
-      this.rows = data;
-    });
+    this.getFtpLogs();
   }
 
-
   reload(): void {
+    this.getFtpLogs();
+  }
+
+  goToReports(): void{
+    this.router.navigate(['ftp-reports']);
+  }
+
+  private getFtpLogs():void{
     this.isLoading = true;
     this.ftpLogService.getFtpLogs()
     .pipe(
       catchError((error) => {
-        console.error("Error fetching ftp logs", error);
+        this.snackBar.open(`Error fetching ftp logs ${error}`, 'Close', { duration: 2000 });
         return of([]);
       }),
       finalize(() => this.isLoading = false)

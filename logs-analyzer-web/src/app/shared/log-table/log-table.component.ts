@@ -45,6 +45,7 @@ export class LogTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isLoading: boolean = false;
 
   @Output() reloadClicked = new EventEmitter<void>();
+  @Output() reportsClicked = new EventEmitter<void>();
 
   @ViewChild(MatPaginator) paginator!:  MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
