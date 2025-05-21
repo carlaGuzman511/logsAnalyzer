@@ -20,4 +20,11 @@ export class FtpLogService {
   getFtpReports(field: string): Observable<LogReport>{     
     return this.http.get<LogReport>(`${this.apiUrl}/reports?report=${field}`)
   }
+
+  uploadFtpLogs(file: File): Observable<FtpLog[]> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<FtpLog[]>(this.apiUrl, formData);
+  }
 }

@@ -15,6 +15,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-log-table',
@@ -31,6 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatDatepickerModule, 
     MatNativeDateModule, 
     MatFormFieldModule, 
+    MatTooltipModule, 
     MatInputModule ],
     templateUrl: './log-table.component.html',
   styleUrl: './log-table.component.css'
@@ -46,6 +48,7 @@ export class LogTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Output() reloadClicked = new EventEmitter<void>();
   @Output() reportsClicked = new EventEmitter<void>();
+  @Output() fileSelected = new EventEmitter<File>();
 
   @ViewChild(MatPaginator) paginator!:  MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -59,12 +62,20 @@ export class LogTableComponent implements OnInit, AfterViewInit, OnChanges {
     let formattedValue = value;
   
     if (value instanceof Date) {
-      formattedValue = value.toLocaleDateString('en-GB'); // dd/mm/yyyy
+      formattedValue = value.toLocaleDateString('en-GB');
     }
   
     this.filterValues[column] = formattedValue?.toString().toLowerCase() ?? '';
     this.dataSource.filter = JSON.stringify(this.filterValues);
   }
+
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.fileSelected.emit(file);
+    }
+  }  
 
   copyRow(row: any): void {
     const textToCopy = JSON.stringify(row, null, 2);

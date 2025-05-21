@@ -19,4 +19,11 @@ export class ApacheAccessLogService {
   getApacheAccessReports(field: string): Observable<LogReport>{
     return this.http.get<LogReport>(`${this.apiUrl}/reports?report=${field}`)
   }
+
+  uploadApacheAccessLog(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<any>(this.apiUrl, formData);
+  }
 }

@@ -1,3 +1,49 @@
+.full-width-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.header-cell-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 0;
+  }
+  
+  .column-title {
+    font-weight: 600;
+  }
+  
+  .column-filter {
+    width: 100%;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    font-size: 12px;
+  }
+  
+  mat-header-cell, mat-cell {
+    padding: 12px;
+    font-size: 14px;
+    word-break: break-word;
+  }
+  
+  mat-header-row, mat-row {
+    transition: background-color 0.2s ease;
+  }
+  
+  mat-row:hover {
+    background-color: #f1f1f1;
+  }
+  
+  mat-paginator {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+  }
+
 .header-cell-content {
     display: flex;
     flex-direction: column;
@@ -11,5 +57,38 @@
   
 .column-filter {
     width: 100%;
+}
+  
+h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+  
+input[type="file"] {
+    display: block;
+    margin: 0 auto 1rem auto;
+}
+  
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.buttons button {
+    margin-right: 8px;
+}
+  
+.buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 50%;
 }
   
