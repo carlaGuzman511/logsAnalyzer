@@ -1,6 +1,9 @@
 <h3>{{title}}</h3>
-<button mat-icon-button (click)="reloadClicked?.emit()" matToolTip="Reload">
+<button mat-icon-button (click)="reloadClicked.emit()" matToolTip="Reload">
   <mat-icon>refresh</mat-icon>
+</button>
+<button mat-icon-button (click)="reportsClicked.emit()" matToolTip="Reports">
+  <mat-icon>bar_chart</mat-icon>
 </button>
 <mat-card>
   <!-- <mat-card-content> -->

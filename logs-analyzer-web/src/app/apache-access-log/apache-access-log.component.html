@@ -2,6 +2,7 @@
   [title]="title"
   [isLoading]="isLoading"
   (reloadClicked)="reload()"
+  (reportsClicked)="goToReports()"
   [columns]="columns"
   [headers]="headers"
   [columnTypes]="{ id: 'text', ip_address: 'text', timestamp: 'date', method: 'text', path: 'text', status_code: 'text', user_agent: 'text'}"

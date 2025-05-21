@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { LogTableComponent } from '../shared/log-table/log-table.component';
 import { of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-apache-access-log',
@@ -19,31 +21,29 @@ export class ApacheAccessLogComponent implements OnInit{
   columns: string[] = ['id', 'ip_address', 'timestamp', 'method', 'path', 'status_code', 'user_agent', 'actions'];
   isLoading: boolean = false;
   title: string = "Apache Access Logs";
-  constructor(private apacheAccessLogService: ApacheAccessLogService){
+
+  constructor(private apacheAccessLogService: ApacheAccessLogService, private snackBar: MatSnackBar, private router: Router){
 
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.apacheAccessLogService.getApacheAccessLogs()
-      .pipe(
-        catchError(error => {
-          console.error('Error fetching apache access logs', error);
-          return of([]);
-        }),
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe((data) => {
-        this.rows = data;
-      });
+    this.getApacheAccessLogs();
   }
   
   reload(): void {
+    this.getApacheAccessLogs();
+  }
+
+  goToReports():void{
+    this.router.navigate(['apache-access-reports']);
+  }
+
+  private getApacheAccessLogs(): void{
     this.isLoading = true;
     this.apacheAccessLogService.getApacheAccessLogs()
       .pipe(
         catchError(error => {
-          console.error('Error fetching apache access logs', error);
+          this.snackBar.open(`Error fetching apache access logs ${error}`, 'Close', { duration: 2000 });
           return of([]);
         }),
         finalize(() => this.isLoading = false)
@@ -52,5 +52,4 @@ export class ApacheAccessLogComponent implements OnInit{
         this.rows = data;
       });
   }
-  
 }
