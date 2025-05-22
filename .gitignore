@@ -20,7 +20,7 @@ env/
 Thumbs.db
 
 # Environment variables
-.env
+# .env
 
 # Configuration files
 config.json
