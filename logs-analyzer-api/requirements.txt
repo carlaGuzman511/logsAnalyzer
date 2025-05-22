@@ -1,3 +1,5 @@
+python-dotenv
 Flask
-peewee pymysql
+peewee 
+pymysql
 apscheduler
