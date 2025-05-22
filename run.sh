@@ -44,10 +44,10 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 
 echo "Checking if database exists..."
-DB_EXISTS=$(mysql -u root -p"${DB_PASSWORD}" -sse "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '${DB_NAME}'")
+DB_EXISTS=$(mysql -u root -p "${ROOT_PASSWORD}" -sse "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '${DB_NAME}'")
 if [ -z "$DB_EXISTS" ]; then
   echo "Database ${DB_NAME} does not exist. Creating..."
-  mysql -u root -p"${DB_PASSWORD}" -e "CREATE DATABASE ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+  mysql -u root -p"${ROOT_PASSWORD}" -e "CREATE DATABASE ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 else
   echo "Database ${DB_NAME} already exists."
 fi
