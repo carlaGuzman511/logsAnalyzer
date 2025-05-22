@@ -124,6 +124,8 @@ def process_log_file(filepath, parser_func, model_class, state_file):
     position = get_log_position(state_file)
     
     with open(filepath, 'r') as f:
+        line_count = sum(1 for _ in f)
+        print('line_count', line_count, filepath)
         f.seek(position)
         for line in f:
             parsed = parser_func(line)
