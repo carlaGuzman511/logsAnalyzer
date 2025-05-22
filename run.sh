@@ -8,6 +8,18 @@ for cmd in mysql python3.11 npm ng; do
   command -v $cmd >/dev/null 2>&1 || { echo >&2 "$cmd is not installed. Aborting."; exit 1; }
 done
 
+echo "Starting MariaDB service..."
+sudo systemctl start mariadb
+
+echo "Cloning the repository (branch: feature/db)..."
+git clone -b feature/db https://github.com/carlaGuzman511/logsAnalyzer.git
+cd logsAnalyzer
+
+echo "Repository cloned."
+
+echo "Setting up backend..."
+cd logs-analyzer-api/
+
 # Cargar variables desde .env si existe
 if [ -f ".env" ]; then
   echo "Cargando variables del entorno desde .env..."
@@ -21,18 +33,6 @@ if [ -z "$DB_NAME" ] || [ -z "$DB_PASSWORD" ]; then
   echo "Error: DB_NAME or DB_PASSWORD not set in .env"
   exit 1
 fi
-
-echo "Starting MariaDB service..."
-sudo systemctl start mariadb
-
-echo "Cloning the repository (branch: feature/db)..."
-git clone -b feature/db https://github.com/carlaGuzman511/logsAnalyzer.git
-cd logsAnalyzer
-
-echo "Repository cloned."
-
-echo "Setting up backend..."
-cd logs-analyzer-api/
 
 # Crear entorno virtual si no existe
 if [ ! -d "venv" ]; then
