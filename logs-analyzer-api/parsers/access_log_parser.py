@@ -16,5 +16,7 @@ def parse_access_log_line(line):
                 'status_code': int(data['status']),
                 'user_agent': data['user_agent'],
             }
+        else:
+            print(line)
     except Exception:
         print(Exception.args)

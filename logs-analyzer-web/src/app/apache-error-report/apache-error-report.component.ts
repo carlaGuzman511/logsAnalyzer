@@ -17,42 +17,131 @@ import { CommonModule } from '@angular/common';
 
 export class ApacheErrorReportComponent implements OnInit{
   chartColor: string[] = ['#3f51b5', '#8bc34a', '#ff5722', '#2196f3', '#9c27b0', '#00bcd4', '#ffeb3b', '#ff5722', '#8bc34a', '#e91e63', '#3f51b5'];
-  data: ChartData<'bar'> = {
+  levelData: ChartData<'bar'> = {
       labels: [],
       datasets: [{
         data: [],
-        label: "Apache Error Logs of the Last 30 Days",
+        label: "Apache Error Logs by Level",
         backgroundColor: this.chartColor
       }
-    ]};
+  ]};
+  
   chartType: ChartType = 'bar';
-    
+  
+  clientIpData: ChartData<'doughnut'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      label: "Apache Error Logs by Client IP",
+      backgroundColor: this.chartColor
+    }
+  ]};
+  
+  clientIpChartType: ChartType = 'doughnut';
+
+  errorCodeData: ChartData<'bar'> = {
+  labels: [],
+  datasets: [{
+    data: [],
+    label: "Apache Error Logs by Error Code",
+    backgroundColor: this.chartColor
+    }
+  ]};
+
+  moduleData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      label: "Apache Error Logs by Module",
+      backgroundColor: this.chartColor
+    }
+  ]};
   
   constructor(private service: ApacheErrorLogService, private snackBar: MatSnackBar){
       
   }
   
   ngOnInit(): void {
-    this.getReportByDates();  
+    this.getReportByClientIp();  
+    this.getReportByErrorCode();
+    this.getReportByLevel();
+    this.getReportByModule();
   }
 
-  private getReportByDates(): void{
-    let start_date = new Date();
-    start_date.setDate(start_date.getDate() - 30);
-    let end_date = new Date();
-    this.service.getApacheErrorReportsByDates(start_date.toLocaleDateString('en-GB'), end_date.toLocaleDateString('en-GB'))
+  private getReportByClientIp(): void{
+    this.service.getApacheErrorReports('client_ip')
       .pipe(
         catchError(error => {
-          this.snackBar.open(`Error fetching apache error logs of the last 30 days report, ${error}`, 'Close', { duration: 2000 });
+          this.snackBar.open(`Error fetching apache error logs by client ip report, ${error}`, 'Close', { duration: 2000 });
           return of({data: [], labels: []});
         }),
       )
       .subscribe((report: LogReport) => {
-        this.data = {
+        this.clientIpData = {
           labels: report.labels,
           datasets: [{
             data: report.data,
-            label: "Timestamp",
+            label: "Apache Error Logs by Client IP",
+            backgroundColor: this.chartColor
+          }]
+        }
+      });
+  }
+  
+  private getReportByErrorCode(): void{
+    this.service.getApacheErrorReports('error_code')
+      .pipe(
+        catchError(error => {
+          this.snackBar.open(`Error fetching apache error logs by error code report, ${error}`, 'Close', { duration: 2000 });
+          return of({data: [], labels: []});
+        }),
+      )
+      .subscribe((report: LogReport) => {
+        this.errorCodeData = {
+          labels: report.labels,
+          datasets: [{
+            data: report.data,
+            label: "Apache Error Logs by Error Code",
+            backgroundColor: this.chartColor
+          }]
+        }
+      });
+  }
+  
+  private getReportByModule(): void{
+    this.service.getApacheErrorReports('module')
+      .pipe(
+        catchError(error => {
+          this.snackBar.open(`Error fetching apache error logs by module report, ${error}`, 'Close', { duration: 2000 });
+          return of({data: [], labels: []});
+        }),
+      )
+      .subscribe((report: LogReport) => {
+        this.moduleData = {
+          labels: report.labels,
+          datasets: [{
+            data: report.data,
+            label: "Apache Error Logs by Module",
+            backgroundColor: this.chartColor
+          }]
+        }
+      });
+  }
+
+  private getReportByLevel(): void{
+    this.service.getApacheErrorReports('level')
+      .pipe(
+        catchError(error => {
+          this.snackBar.open(`Error fetching apache error logs by level report, ${error}`, 'Close', { duration: 2000 });
+          return of({data: [], labels: []});
+        }),
+      )
+      .subscribe((report: LogReport) => {
+        this.levelData = {
+          labels: report.labels,
+          datasets: [{
+            data: report.data,
+            label: "Apache Error Logs by Level",
             backgroundColor: this.chartColor
           }]
         }
