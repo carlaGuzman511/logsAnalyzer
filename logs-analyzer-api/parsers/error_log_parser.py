@@ -9,12 +9,17 @@ apache_error_regex = re.compile(
     r'(?P<message>.+)$'                                             # Message
 )
 
+error_code_regex = re.compile(r'^(?P<error_code>AH\d{5}):')
+
 def parse_error_log_line(line):
     line = line.strip()
     try:
         match = apache_error_regex.match(line)
         if match:
             data = match.groupdict()
+            
+            error_code_match = error_code_regex.match(data['message'])
+            error_code = error_code_match.group('error_code') if error_code_match else None
             return {
                 'timestamp': datetime.strptime(data['timestamp'], '%a %b %d %H:%M:%S.%f %Y'),
                 'module': data['module'],
@@ -22,6 +27,9 @@ def parse_error_log_line(line):
                 'pid': data.get('pid'),
                 'client_ip': data.get('client_ip'),
                 'message': data.get('message'),
+                'error_code': error_code
             }
+        else:
+            print(line)
     except Exception as e:
         print(f"Error parsing line: {e}")

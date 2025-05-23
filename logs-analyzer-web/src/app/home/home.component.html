@@ -1,4 +1,19 @@
 <h1>Services Logs</h1>
-<app-vsftpd></app-vsftpd>
-<app-apache-error-log></app-apache-error-log>
-<app-apache-access-log></app-apache-access-log>
+<div class="card-bar">
+    <mat-card role="button" (click)="goToApacheAccessLogs()">
+        <mat-card-content>
+            <h3>Apache Access Logs</h3>
+        </mat-card-content>
+    </mat-card>
+    <mat-card role="button" (click)="goToApacheErrorLogs()">
+        <mat-card-content>
+            <h3>Apache Error Logs</h3>
+        </mat-card-content>
+    </mat-card>
+    <mat-card role="button" (click)="goToFtpLogs()">
+        <mat-card-content>
+            <h3>Ftp Logs</h3>
+        </mat-card-content>
+    </mat-card>
+</div>
+

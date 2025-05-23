@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-import os
 from data.tables.apache_access_log import ApacheAccessLog
 from data.tables.apache_error_log import ApacheErrorLog
 from data.tables.ftp_log import FtpLog
@@ -16,9 +15,7 @@ CORS(app)
 
 @app.route('/')
 def index():
-    
-
-    return "hello WOrld!"
+    return "Logs Analyzer App!"
 
 @app.route('/api/logs/apache/access', methods=['POST'])
 def load_apache_access():
@@ -89,12 +86,11 @@ def get_apache_access_reports():
 
 @app.route('/api/logs/apache/error/reports')
 def get_apache_error_reports():
-    start_date = request.args.get('start_date')
-    end_date = request.args.get('end_date')  
-    data = get_apache_error_logs_reports(start_date, end_date)
+    field = request.args.get('report')
+    labels, data = get_apache_error_logs_reports(field)
 
     return jsonify({
-        'labels': "",
+        'labels': labels,
         'data': data
     })
 
@@ -126,11 +122,13 @@ def process_log_file(filepath, parser_func, model_class, state_file):
     with open(filepath, 'r') as f:
         line_count = sum(1 for _ in f)
         print('line_count', line_count, filepath)
+
         f.seek(position)
         for line in f:
             parsed = parser_func(line)
             if parsed:
                 model_class.create(**parsed)
+                
         update_log_position(state_file, f.tell())
 
 if __name__ == '__main__':

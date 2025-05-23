@@ -18,8 +18,8 @@ import { Router } from '@angular/router';
 
 export class ApacheErrorLogComponent implements OnInit{
   rows: ApacheErrorLog[] = [];
-  columns: string[] = ['id', 'ip', 'timestamp','method', 'url', 'message', 'status_code', 'actions'];
-  headers: string[] = ['Id', 'IP Address', 'Timestamp', 'Method', 'Action', 'URL', 'Message', 'Status Code', 'Actions'];
+  columns: string[] = ['id', 'timestamp','module', 'level', 'pid', 'client_ip', 'error_code', 'message'];
+  headers: string[] = ['Id', 'Timestamp','Module', 'Level', 'PID', 'Client IP', 'Error Code', 'Message'];
   isLoading: boolean = false;
   title: string = "Apache Error Logs";
 

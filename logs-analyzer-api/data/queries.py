@@ -25,11 +25,12 @@ def get_apache_access_logs_reports(field):
 
     return labels, data
         
-def get_apache_error_logs_reports(start_date, end_date):
-    apache_error_logs = ApacheErrorLog.select(fn.COUNT(ApacheErrorLog.id).alias('count')).where((ApacheErrorLog.timestamp >= start_date) & (ApacheErrorLog.timestamp <= end_date)).dicts()
+def get_apache_error_logs_reports(field):
+    apache_error_logs = ApacheErrorLog.select(getattr(ApacheErrorLog, field),fn.COUNT(ApacheErrorLog.id).alias('count')).group_by(getattr(ApacheErrorLog, field)).dicts()
+    labels = [item[field] for item in apache_error_logs]
     data = [item['count'] for item in apache_error_logs]
 
-    return data
+    return labels, data
 
 def get_ftp_logs_reports(field):
     ftp_logs = FtpLog.select(getattr(FtpLog, field), fn.COUNT(FtpLog.id).alias('count')).group_by(getattr(FtpLog, field)).dicts()
