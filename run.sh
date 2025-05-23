@@ -3,7 +3,6 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-# Verificar dependencias necesarias
 for cmd in mysql python3.11 npm ng; do
   command -v $cmd >/dev/null 2>&1 || { echo >&2 "$cmd is not installed. Aborting."; exit 1; }
 done
@@ -20,7 +19,6 @@ echo "Repository cloned."
 echo "Setting up backend..."
 cd logs-analyzer-api/
 
-# Cargar variables desde .env si existe
 if [ -f ".env" ]; then
   echo "Cargando variables del entorno desde .env..."
   set -a
@@ -28,13 +26,11 @@ if [ -f ".env" ]; then
   set +a
 fi
 
-# Verificar que las variables necesarias están definidas
 if [ -z "$DB_NAME" ] || [ -z "$DB_PASSWORD" ]; then
   echo "Error: DB_NAME or DB_PASSWORD not set in .env"
   exit 1
 fi
 
-# Crear entorno virtual si no existe
 if [ ! -d "venv" ]; then
   python3.11 -m venv venv
 fi
@@ -71,4 +67,4 @@ npm install
 echo "Starting frontend (Angular)..."
 nohup ng serve --open > angular.log 2>&1 &
 
-echo "✅ All services are running. Open http://localhost:4200/ in your browser."
+echo "All services are running. Open http://localhost:4200/ in your browser."

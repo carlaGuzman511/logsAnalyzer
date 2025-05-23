@@ -1,2 +1,8 @@
-<h3>Apache Error Logs of the last 30 days</h3>
-<app-log-report [data]="data" [chartType]="chartType"></app-log-report>
+<h3>Apache Error Logs by Error Code</h3>
+<app-log-report [data]="errorCodeData" [chartType]="chartType"></app-log-report>
+<h3>Apache Error Logs by Module</h3>
+<app-log-report [data]="moduleData" [chartType]="chartType"></app-log-report>
+<h3>Apache Error Logs by Client IP</h3>
+<app-log-report [data]="clientIpData" [chartType]="clientIpChartType"></app-log-report>
+<h3>Apache Error Logs by Level</h3>
+<app-log-report [data]="levelData" [chartType]="chartType"></app-log-report>

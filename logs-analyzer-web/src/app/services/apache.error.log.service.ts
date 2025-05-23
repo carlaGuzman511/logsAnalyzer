@@ -20,10 +20,6 @@ export class ApacheErrorLogService {
     return this.http.get<LogReport>(`${this.apiUrl}/reports?report=${field}`)
   }
 
-  getApacheErrorReportsByDates(start_date: string, end_date: string): Observable<LogReport>{
-    return this.http.get<LogReport>(`${this.apiUrl}/reports?start_date=${start_date}&end_date=${end_date}`)
-  }
-
   uploadApacheErrorLog(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);

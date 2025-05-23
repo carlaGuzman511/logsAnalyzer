@@ -43,5 +43,7 @@ def parse_vsftpd_log_line(line):
                     'ip_address': data.get('ip'),
                     'message': data['message'],
                 }
+            else:
+                print(line)
     except Exception as e:
         print(f"Error parsing line: {e}")

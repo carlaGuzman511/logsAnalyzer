@@ -1,9 +1,10 @@
 export interface ApacheErrorLog {
     id: number,
-    ip: string,
     timestamp: string,
-    method: string,
-    url: string,
+    module: string,
+    level: string,
+    pid: string,
+    client_ip: string,
+    error_code: string,
     message: string,
-    status_code: string,
 }
