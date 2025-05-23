@@ -25,3 +25,5 @@ Thumbs.db
 # Configuration files
 config.json
 config.yaml
+
+/logs-analyzer-api/root
