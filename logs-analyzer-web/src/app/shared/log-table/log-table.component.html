@@ -21,7 +21,7 @@
       <mat-spinner color="primary"></mat-spinner>
     </div>
 
-    <div *ngIf="rows.length > 0">
+    <div *ngIf="!isLoading">
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
           <ng-container *ngFor="let column of columns">  
@@ -66,11 +66,6 @@
         </table>  
       </div>
       <mat-paginator [pageSize]="10"></mat-paginator>
-    </div>
-
-    
-    <div *ngIf="rows.length == 0 && !isLoading">
-      <p>There are no records on the log file</p>
     </div>
   </mat-card-content>
 </mat-card>
