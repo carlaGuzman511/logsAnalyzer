@@ -10,8 +10,8 @@ done
 echo "Starting MariaDB service..."
 sudo systemctl start mariadb
 
-echo "Cloning the repository (branch: feature/db-improvements)..."
-git clone -b feature/db-improvements https://github.com/carlaGuzman511/logsAnalyzer.git
+echo "Cloning the repository (branch: feature/db)..."
+git clone -b feature/db https://github.com/carlaGuzman511/logsAnalyzer.git
 cd logsAnalyzer
 
 echo "Repository cloned."
