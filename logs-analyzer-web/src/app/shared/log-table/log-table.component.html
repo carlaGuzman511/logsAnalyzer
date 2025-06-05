@@ -16,23 +16,21 @@
 </div>
 
 <mat-card>
-  <!-- <mat-card-content> -->
+  <mat-card-content>
     <div *ngIf="isLoading" class="spinner">
       <mat-spinner color="primary"></mat-spinner>
     </div>
-    <div>
+
+    <div *ngIf="rows.length > 0">
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
-
           <ng-container *ngFor="let column of columns">  
             <ng-container [matColumnDef]="column" *ngIf="column !== 'actions'">  
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                <div class="header-cell-content">
-                  
+                <div class="header-cell-content">                  
                   <div class="column-title">
                     {{ getHeader(column) }}
                   </div>
-                  
                   <div class="column-filter">
                     <ng-container [ngSwitch]="columnTypes[column]">
                       <mat-form-field *ngSwitchCase="'text'" appearance="outline">
@@ -63,12 +61,16 @@
               </button>
             </td>
           </ng-container>
-
           <tr mat-header-row *matHeaderRowDef="columns"></tr>
           <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-        </table>
+        </table>  
       </div>
       <mat-paginator [pageSize]="10"></mat-paginator>
     </div>
-  <!-- </mat-card-content> -->
+
+    
+    <div *ngIf="rows.length == 0 && !isLoading">
+      <p>There are no records on the log file</p>
+    </div>
+  </mat-card-content>
 </mat-card>
