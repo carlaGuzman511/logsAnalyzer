@@ -17,8 +17,8 @@ import { Router } from '@angular/router';
 })
 export class ApacheAccessLogComponent implements OnInit{
   rows: ApacheAccessLog[] = [];
-  headers: string[] = ['Id', 'IP Address', 'Timestamp', 'Method', 'Path', 'Status Code', 'User Agent', 'Actions'];
-  columns: string[] = ['id', 'ip_address', 'timestamp', 'method', 'path', 'status_code', 'user_agent', 'actions'];
+  headers: string[] = ['Id', 'IP Address', 'Timestamp', 'Method', 'Path', 'Status Code', 'User Agent', 'Operating System', 'Browser', 'Referrer', 'Response Size', 'Actions'];
+  columns: string[] = ['id', 'ip_address', 'timestamp', 'method', 'path', 'status_code', 'user_agent', 'os', 'browser', 'referrer', 'response_size', 'actions'];
   isLoading: boolean = false;
   title: string = "Apache Access Logs";
 

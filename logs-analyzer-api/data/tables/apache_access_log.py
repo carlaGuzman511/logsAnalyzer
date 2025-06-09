@@ -8,6 +8,10 @@ class ApacheAccessLog(Model):
     path = CharField(null=True)
     status_code = IntegerField(null=True)
     user_agent = CharField(null=True)
-
+    browser = CharField(null=True)
+    os = CharField(null=True)
+    referrer = CharField(null=True)
+    response_size = CharField(null=True)
+    
     class Meta:
         database = db

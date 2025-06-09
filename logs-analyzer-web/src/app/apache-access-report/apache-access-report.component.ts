@@ -46,6 +46,24 @@ export class ApacheAccessReportComponent implements OnInit {
     }]};
   ipChartType: ChartType = 'bar';
 
+  browserData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      label: "Browsers",
+      backgroundColor: this.chartColors
+    }]};
+  browserChartType: ChartType = 'bar';
+
+  osData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      label: "Operating System",
+      backgroundColor: this.chartColors
+    }]};
+  osChartType: ChartType = 'bar';
+
   constructor(private service: ApacheAccessLogService, private snackBar: MatSnackBar){
     
   }
@@ -54,6 +72,8 @@ export class ApacheAccessReportComponent implements OnInit {
     this.getReportByMethod();
     this.getReportByStatusCode();
     this.getReportByIpAddress();
+    this.getReportByOS();
+    this.getReportByBrowser();
   }
 
   private getReportByStatusCode(): void{
@@ -111,6 +131,46 @@ export class ApacheAccessReportComponent implements OnInit {
           datasets: [{
             data: report.data,
             label: "Ip Address",
+            backgroundColor: this.chartColors
+          }]
+        }
+      });
+  }
+
+  private getReportByBrowser(): void{
+    this.service.getApacheAccessReports('browser')
+      .pipe(
+        catchError(error => {
+          this.snackBar.open(`Error fetching apache access logs by browser, ${error}`, 'Close', { duration: 2000 });
+          return of({data: [], labels: []});
+        }),
+      )
+      .subscribe((report: LogReport) => {
+        this.browserData = {
+          labels: report.labels,
+          datasets: [{
+            data: report.data,
+            label: "Browser",
+            backgroundColor: this.chartColors
+          }]
+        }
+      });
+  }
+
+  private getReportByOS(): void{
+    this.service.getApacheAccessReports('os')
+      .pipe(
+        catchError(error => {
+          this.snackBar.open(`Error fetching apache access logs by Operating System, ${error}`, 'Close', { duration: 2000 });
+          return of({data: [], labels: []});
+        }),
+      )
+      .subscribe((report: LogReport) => {
+        this.osData = {
+          labels: report.labels,
+          datasets: [{
+            data: report.data,
+            label: "Operating System",
             backgroundColor: this.chartColors
           }]
         }

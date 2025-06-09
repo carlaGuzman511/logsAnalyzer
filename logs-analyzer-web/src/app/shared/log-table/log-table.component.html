@@ -21,7 +21,7 @@
       <mat-spinner color="primary"></mat-spinner>
     </div>
 
-    <div *ngIf="!isLoading">
+    <div>
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
           <ng-container *ngFor="let column of columns">  
