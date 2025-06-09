@@ -115,6 +115,9 @@ export class LogTableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['rows'] && changes['rows'].currentValue) {
       this.dataSource.data = changes['rows'].currentValue;
+      
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }
   }
 
